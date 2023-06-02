@@ -2748,7 +2748,7 @@ struct ExampleSelection
     {
         if (ms_io->RequestClear)        { Clear(); }
         if (ms_io->RequestSelectAll)    { SelectAll(items_count); }
-        if (ms_io->RequestSetRange)     { SetRange((int)(intptr_t)ms_io->RangeSrc, (int)(intptr_t)ms_io->RangeDst, ms_io->RangeValue ? 1 : 0); }
+        if (ms_io->RequestSetRange)     { SetRange((int)(intptr_t)ms_io->RangeSrcItem, (int)(intptr_t)ms_io->RangeDstItem, ms_io->RangeValue ? 1 : 0); }
     }
 };
 
@@ -2837,7 +2837,7 @@ static void ShowDemoWindowMultiSelect()
 
                 // Apply multi-select requests
                 ms_io = ImGui::EndMultiSelect();
-                selection.RangeRef = (int)(intptr_t)ms_io->RangeSrc;
+                selection.RangeRef = (int)(intptr_t)ms_io->RangeSrcItem;
                 selection.ApplyRequests(ms_io, ITEMS_COUNT);
 
                 ImGui::EndListBox();
@@ -2878,7 +2878,7 @@ static void ShowDemoWindowMultiSelect()
 
                 // Apply multi-select requests
                 ms_io = ImGui::EndMultiSelect();
-                selection->RangeRef = (int)(intptr_t)ms_io->RangeSrc;
+                selection->RangeRef = (int)(intptr_t)ms_io->RangeSrcItem;
                 selection->ApplyRequests(ms_io, ITEMS_COUNT);
                 ImGui::PopID();
             }
@@ -2945,9 +2945,9 @@ static void ShowDemoWindowMultiSelect()
 
                 while (!use_clipper || clipper.Step())
                 {
-                    // IF clipping is used you need to set 'RangeSrcPassedBy = true' if RangeSrc was passed over.
+                    // IF clipping is used you need to set 'RangeSrcPassedBy = true' if RangeSrcItem was passed over.
                     if (use_clipper)
-                        if ((int)(intptr_t)ms_io->RangeSrc <= clipper.DisplayStart)
+                        if ((int)(intptr_t)ms_io->RangeSrcItem <= clipper.DisplayStart)
                             ms_io->RangeSrcPassedBy = true;
 
                     const int item_begin = use_clipper ? clipper.DisplayStart : 0;
@@ -3035,7 +3035,7 @@ static void ShowDemoWindowMultiSelect()
 
                 // Apply multi-select requests
                 ms_io = ImGui::EndMultiSelect();
-                selection.RangeRef = (int)(intptr_t)ms_io->RangeSrc;
+                selection.RangeRef = (int)(intptr_t)ms_io->RangeSrcItem;
                 selection.ApplyRequests(ms_io, ITEMS_COUNT);
 
                 if (widget_type == WidgetType_TreeNode)
